@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+
+    <properties resource="db.properties"/>
+    <!--
+        设置mybatis的常量，以及一些别名等等的设置
+    -->
+    <settings>
+        <!--开启二级缓存的总开关-->
+        <setting name="cacheEnabled" value="true"/>
+
+        <!--开启延迟加载的开关-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--mapper : proxy mapper  rules 4+2-->
+    <mappers>
+        <package name="com.ming.mapper"/>
+    </mappers>
+
+</configuration>

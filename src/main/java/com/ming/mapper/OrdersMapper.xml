@@ -1,0 +1,39 @@
+<?xml version="1.0"  encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ming.mapper.OrdersMapper">
+    <!--实现延迟加载-->
+    <resultMap id="orderuserlazyRM" type="com.ming.po.Orders">
+        <!--配置订单信息-->
+        <id column="id" property="id"/>
+        <result column="user_id" property="userid"/>
+        <result column="number" property="number"/>
+        <result column="createtime" property="createtime"/>
+        <result column="note" property="note"/>
+        <!--延迟加载用户信息-->
+        <!--
+             1:1关系，用association
+            延迟加载[提高性能]
+            property：主表Orders中一一对应关系的对象名需要一致，需在Orders类中创建该属性名
+            javaType：一对一关系对应的
+        -->
+            <!--select:指定延迟加载需要执行的statement的ID(根据user_id查询用户信息的statement)
+                   该语句来自于UserMapper.xml文件中的queryUserById
+
+            column: 订单信息中关联用户信息的列名 user_id
+            关联SQL如下：
+            select orders.*,
+                (select username from user where orders.user_id = user.id) as MyUserNanme,
+                (select sex from user where orders.user_id = user.id) as MySex
+                from orders;
+               -->
+        <!--1:1-->
+        <association property="user" javaType="com.ming.po.User"
+                     select="com.ming.mapper.UserMapper.queryUserById" column="user_id"/>
+    </resultMap>
+    <!--实现延迟加载-->
+    <select id="findorderuserlazyload" resultMap="orderuserlazyRM">
+        select * from orders;
+    </select>
+</mapper>

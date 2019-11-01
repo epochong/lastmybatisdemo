@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ming.mapper.UserMapper">
+
+    <!--
+        改标签表示在某个mapper中开启二级缓存
+        子属性参考官方文档，我们这里全部使用默认值
+    -->
+    <cache/>
+
+
+    <select id="queryUserById" parameterType="int" resultType="com.ming.po.User">
+        select * from user where id = #{value};
+    </select>
+
+    <update id="modifyUserById" parameterType="com.ming.po.User">
+        update user set username=#{userName} where id = #{userId}
+    </update>
+
+
+</mapper>
